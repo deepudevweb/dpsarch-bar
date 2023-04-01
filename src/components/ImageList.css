@@ -1,0 +1,14 @@
+.image-list {
+    columns: 6 200px;
+    column-count: 10px;
+}
+img {
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+img:hover {
+    transition: all .2s;
+    transform: scale(1.1);
+    box-shadow: 0 4px 5px rgba(0,0,0,0.5);
+}
