@@ -15,6 +15,7 @@ function App() {
   return (
     <div>
       <SearchBar onSubmit={handleSubmit} />
+      {/* <button onClick={() => handleSubmit()}>search</button> */}
       <ImageList images={images} />
     </div>
   );
