@@ -1,30 +1,59 @@
 /* src/components/NewFooter.css */
 .new-footer {
-  background-color: #333; /* Dark background for footer */
-  color: #aaa; /* Light grey text color */
-  padding: 20px 0;
+  background-color: var(--text-primary-color); /* Using a dark color from the palette, e.g., dark desaturated blue/grey */
+  color: var(--background-main-color); /* Light text on dark background */
+  padding: 40px 20px; /* Increased padding */
   text-align: center;
-  border-top: 1px solid #444;
-  margin-top: auto; /* Pushes footer to bottom if app-layout is flex-column and has min-height: 100vh */
+  /* border-top: 1px solid var(--border-color); Removed, dark bg provides enough separation */
+  margin-top: auto; /* Keeps footer at bottom for short content pages */
+  font-family: var(--font-family-body);
 }
 
 .footer-links {
-  margin-bottom: 10px;
+  margin-bottom: 15px; /* Space between links and copyright */
+  display: flex; /* Allow wrapping and centering */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px 25px; /* Row and column gap for links */
 }
 
 .footer-links a {
-  color: #00aaff; /* Accent color for links - example blue */
+  color: var(--background-main-color); /* Light link color on dark bg */
   text-decoration: none;
-  margin: 0 10px;
   font-size: 0.9em;
+  font-weight: 500; /* Slightly bolder footer links */
+  transition: color 0.2s ease;
 }
 
 .footer-links a:hover {
+  color: var(--primary-accent-color); /* Accent color on hover */
   text-decoration: underline;
-  color: #00eeff;
+}
+
+.footer-copyright { /* Renamed from .footer-copyright p for direct styling of the div */
+  margin-top: 20px; /* Ensure space if links wrap extensively */
 }
 
 .footer-copyright p {
   margin: 0;
-  font-size: 0.8em;
+  font-size: 0.85em;
+  color: var(--text-subtle-color); /* Use subtle text color from palette, but ensure contrast on dark bg */
+  /* Overriding subtle color for better contrast on dark footer: */
+  color: #a0aec0; /* Example: A light grey that works on dark backgrounds */
+}
+
+/* Responsive adjustments if needed, though flex-wrap should handle link layout well */
+@media (max-width: 768px) {
+  .new-footer {
+    padding: 30px 15px;
+  }
+  .footer-links {
+    gap: 10px 20px; /* Reduce gap on smaller screens */
+  }
+  .footer-links a {
+    font-size: 0.85em;
+  }
+  .footer-copyright p {
+    font-size: 0.8em;
+  }
 }

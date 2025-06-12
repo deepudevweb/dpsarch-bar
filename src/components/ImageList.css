@@ -1,86 +1,99 @@
-/* src/components/ImageList.css - Append or replace if only card styles are needed */
+/* src/components/ImageList.css */
 
-/* Existing .image-list styles - ensure it's a grid container */
 .image-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Example responsive grid */
-  grid-gap: 20px; /* Spacing between cards */
-  padding: 20px;
+  /* Adjusted minmax for slightly larger base cards if desired, or keep as is */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 25px; /* Increased gap for more breathing room */
+  /* padding: 25px; */ /* Remove this if .main-content has sufficient padding */
+  /* Or reduce it, e.g., padding: 0; or padding: 0 0 25px 0; for bottom space */
+  padding: 0; /* Assuming .main-content padding is the primary outer padding */
 }
 
 .image-card {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
-  overflow: hidden; /* Ensures content like image doesn't break rounded corners */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: var(--background-card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px; /* Softer, more modern radius */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07); /* Softer, more diffused shadow */
+  overflow: hidden;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
   cursor: pointer;
   display: flex;
-  flex-direction: column; /* Stack image, info, button vertically */
+  flex-direction: column;
 }
 
 .image-card:hover {
-  transform: translateY(-5px); /* Hover effect */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
 }
 
 .image-thumbnail {
   width: 100%;
-  height: 200px; /* Fixed height for thumbnails, or use aspect-ratio */
-  object-fit: cover; /* Cover ensures image fills space without distortion */
+  /* Consider aspect-ratio for more Dribbble-like consistency, e.g., 4:3 */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  /* No border-radius needed if .image-card has overflow:hidden and rounds image */
 }
 
 .image-info {
-  padding: 10px 15px;
-  flex-grow: 1; /* Allows info to take available space if card height is fixed/flexed */
+  padding: 15px; /* Standardized padding */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; /* Ensure title and resolution stack properly */
 }
 
 .image-title {
-  font-size: 0.9em;
-  font-weight: bold;
-  color: #333;
-  margin: 0 0 5px 0;
+  font-family: var(--font-family-headings); /* Use heading font for title */
+  font-size: 1.05em; /* Slightly larger title */
+  font-weight: 600; /* Bolder title */
+  color: var(--text-primary-color);
+  margin: 0 0 8px 0; /* Space below title */
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Prevent long titles from breaking layout */
+  text-overflow: ellipsis;
+  line-height: 1.3; /* Adjust line height for heading font */
 }
 
 .image-resolution {
-  font-size: 0.8em;
-  color: #777;
+  font-family: var(--font-family-body);
+  font-size: 0.85em; /* Slightly smaller for secondary info */
+  color: var(--text-subtle-color); /* Use subtle text color */
   margin: 0;
+  margin-top: auto; /* Pushes resolution to the bottom if info area grows */
 }
 
-.download-button-card { /* Style for download button on card */
-  background-color: #007bff; /* Or your accent color */
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  margin: 10px 15px; /* Margin to push it from edges of info */
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  align-self: flex-start; /* Align button to the left within the card */
-}
+/* Styles for .download-button-card should be removed if the button was fully removed from ImageShow.js. */
+/* If it wasn't, it should also be styled with variables. */
+/* Based on previous steps, it was removed from ImageShow.js. */
 
-.download-button-card:hover {
-  background-color: #0056b3;
-}
-
-@media (max-width: 480px) { /* For very small screens */
+/* Responsive adjustments for the grid if needed */
+@media (max-width: 600px) { /* Example breakpoint */
   .image-list {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller min size for items */
-    /* Or, for a single column layout: */
-    /* grid-template-columns: 1fr; */
-    grid-gap: 10px; /* Reduce gap */
-    padding: 10px; /* Reduce padding */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 20px;
+    /* padding: 20px; */ /* Remove if .main-content handles it */
+    padding: 0;
   }
-
   .image-card {
-    /* Potentially adjust card styling for very small screens if needed */
+    border-radius: 10px;
   }
-  .image-thumbnail {
-    height: 120px; /* Adjust thumbnail height for smaller cards */
+  .image-title {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-list {
+    /* Single column for very small screens, or keep minmax with smaller value */
+    grid-template-columns: 1fr;
+    grid-gap: 15px;
+    /* padding: 15px; */ /* Remove if .main-content handles it */
+    padding: 0;
+  }
+   .image-thumbnail {
+    aspect-ratio: 16 / 9; /* Wider aspect ratio for single column if preferred */
+  }
+  .image-info {
+    padding: 12px;
   }
 }

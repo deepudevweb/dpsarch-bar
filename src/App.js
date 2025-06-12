@@ -151,12 +151,23 @@ function App() {
   const MainContent = ({ currentView }) => (
     <>
       {currentView !== 'latest' && <SearchBar onSubmit={handleSubmit} />}
-      {isLoading ? <p>Loading images...</p> : <ImageList images={images} onImageClick={handleImageClick} />}
+      {isLoading ? <p style={{textAlign: 'center', padding: '20px'}}>Loading images...</p> : (
+        images.length > 0 ? (
+          <ImageList images={images} onImageClick={handleImageClick} />
+        ) : (
+          // Show message if not loading, no images, and a query/category was active
+          (currentQuery || selectedCategory) &&
+            <p style={{textAlign: 'center', padding: '20px', color: 'var(--text-secondary-color)'}}>
+              No images found for "{currentQuery || selectedCategory}". Try a different search or category.
+            </p>
+        )
+      )}
+      {/* Pagination only if images exist and not loading */}
       {images.length > 0 && !isLoading && (
         <div className="pagination-controls">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
+          <button onClick={handlePrevPage} disabled={currentPage === 1} className="btn btn-secondary">Previous</button>
           {totalPages > 0 && (<span>Page {currentPage} of {totalPages}</span>)}
-          <button onClick={handleNextPage} disabled={currentPage === totalPages || totalPages === 0}>Next</button>
+          <button onClick={handleNextPage} disabled={currentPage === totalPages || totalPages === 0} className="btn btn-secondary">Next</button>
         </div>
       )}
     </>
@@ -166,7 +177,10 @@ function App() {
     <div className="app-layout">
       <Navbar />
       <div className="app-container">
-        <CategorySidebar onSelectCategory={handleCategorySelect} />
+        <CategorySidebar
+          onSelectCategory={handleCategorySelect}
+          activeCategory={selectedCategory} // Pass activeCategory prop
+        />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<MainContent currentView={currentView} />} />

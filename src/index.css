@@ -1,0 +1,144 @@
+/* src/index.css */
+
+/* Define Color Palette as CSS Variables */
+:root {
+  --primary-accent-color: #007AFF; /* Modern Blue */
+  --secondary-accent-color: #5AC8FA; /* Light Blue/Teal */
+
+  --text-primary-color: #2c3e50; /* Darker, slightly desaturated blue/grey for text */
+  --text-secondary-color: #555555;
+  --text-subtle-color: #888888;
+
+  --background-main-color: #F8F9FA; /* Very Light Grey */
+  --background-card-color: #FFFFFF; /* White for cards, modals */
+
+  --border-color: #E0E0E0; /* Light Grey for borders/dividers */
+
+  /* Fonts */
+  --font-family-headings: 'Poppins', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+
+  /* Helper transparent accents */
+  --primary-accent-color-005: rgba(0, 123, 255, 0.05); /* For subtle hover background */
+  --primary-accent-color-01: rgba(0, 123, 255, 0.1);  /* For subtle active background */
+  --primary-accent-color-05: rgba(0, 123, 255, 0.5);  /* For primary focus ring */
+  --primary-accent-color-025: rgba(0, 123, 255, 0.25); /* For secondary focus ring */
+
+  /* Hover state colors (replacing color-mix) */
+  --primary-accent-hover-bg: #0056b3; /* Darker blue, example value */
+  --primary-accent-hover-border: #004085; /* Darker blue for border, example value */
+}
+
+/* Basic Reset and Global Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-body);
+  color: var(--text-secondary-color); /* Default body text color */
+  background-color: var(--background-main-color);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased; /* Smoother fonts on WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Smoother fonts on Firefox */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-headings);
+  color: var(--text-primary-color); /* Default heading color */
+  margin-bottom: 0.75em;
+  font-weight: 600; /* Default heading weight */
+}
+
+a {
+  color: var(--primary-accent-color);
+  text-decoration: none; /* Remove default underline from links */
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--secondary-accent-color); /* Or darken primary: color: #0056b3; */
+  text-decoration: underline; /* Add underline on hover for clarity */
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Remove bottom space under images */
+}
+
+/* Add other global styles or resets as needed */
+
+/* Global Button Styles */
+.btn {
+  display: inline-block; /* Allows margin/padding and respects text-align for block-level centering */
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: 0.95em; /* Base button font size */
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent; /* Base border */
+  padding: 10px 18px; /* Base padding */
+  border-radius: 8px; /* Consistent rounded corners */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, transform 0.1s ease;
+  user-select: none; /* Prevent text selection on click */
+}
+
+.btn:hover {
+  text-decoration: none; /* Ensure links styled as buttons don't get underline */
+}
+
+.btn:focus, .btn.focus { /* .focus class for programmatic focus */
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Focus ring using primary accent, adjust color as needed */
+}
+
+.btn:disabled, .btn.disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn:active, .btn.active {
+  transform: translateY(1px); /* Press effect */
+  box-shadow: none;
+}
+
+/* Primary Button */
+.btn-primary {
+  color: var(--background-card-color); /* White text */
+  background-color: var(--primary-accent-color);
+  border-color: var(--primary-accent-color);
+}
+
+.btn-primary:hover {
+  color: var(--background-card-color);
+  background-color: var(--primary-accent-hover-bg); /* Use new variable */
+  border-color: var(--primary-accent-hover-border); /* Use new variable */
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-accent-color-05); /* Using a var for 0.5 opacity accent */
+}
+
+/* Secondary/Default Button (Example: used for less prominent actions) */
+.btn-secondary {
+  color: var(--text-primary-color);
+  background-color: var(--background-card-color); /* White/card background */
+  border-color: var(--border-color); /* Standard border color */
+}
+
+.btn-secondary:hover {
+  color: var(--primary-accent-color);
+  background-color: var(--primary-accent-color-005); /* Subtle accent bg */
+  border-color: color-mix(in srgb, var(--border-color) 85%, var(--text-primary-color)); /* Slightly darker border */
+}
+
+.btn-secondary:focus, .btn-secondary.focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-accent-color-025); /* Lighter focus ring */
+}

@@ -1,85 +1,108 @@
 /* src/pages/ContactPage.css */
 .contact-page-container {
   max-width: 700px;
-  margin: 20px auto; /* Center it and add some margin from main-content padding */
-  padding: 25px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin: 40px auto; /* Increased top/bottom margin for better page separation */
+  padding: 30px 35px; /* Slightly increased padding */
+  background-color: var(--background-card-color);
+  border-radius: 12px; /* Consistent with new card style */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07); /* Refined shadow */
+  border: 1px solid var(--border-color); /* Optional: if shadow isn't enough separation */
 }
 
 .contact-page-container h2 {
   text-align: center;
-  color: #333;
-  margin-bottom: 10px;
+  font-family: var(--font-family-headings);
+  color: var(--text-primary-color);
+  font-size: 1.8em; /* Adjusted size */
+  margin-bottom: 15px;
 }
 
-.contact-page-container p {
+.contact-page-container p.intro-text { /* Added class for intro text for specific styling */
   text-align: center;
-  color: #666;
-  margin-bottom: 25px;
-  font-size: 0.95em;
+  font-family: var(--font-family-body);
+  color: var(--text-secondary-color);
+  margin-bottom: 30px; /* More space before form */
+  font-size: 1em;
+  line-height: 1.7;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
+  gap: 20px; /* Use gap for spacing between form groups */
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 0; /* Removed, as gap on parent handles it */
 }
 
 .form-group label {
   display: block;
   margin-bottom: 8px;
+  font-family: var(--font-family-body);
   font-weight: 500;
-  color: #444;
+  color: var(--text-primary-color); /* Slightly darker for more emphasis */
   font-size: 0.9em;
 }
 
-.form-group input,
+.form-group input[type="text"],
+.form-group input[type="email"],
 .form-group textarea {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box; /* Important for width and padding */
+  padding: 12px 15px; /* Standardized padding */
+  border: 1px solid var(--border-color);
+  border-radius: 8px; /* Consistent with global button radius */
+  box-sizing: border-box;
   font-size: 1em;
-  font-family: 'Roboto', sans-serif; /* Match other inputs if set */
+  font-family: var(--font-family-body);
+  color: var(--text-primary-color);
+  background-color: var(--background-main-color); /* Slightly off-white background for inputs */
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.form-group input:focus,
+.form-group input[type="text"]::placeholder,
+.form-group input[type="email"]::placeholder,
+.form-group textarea::placeholder {
+  color: var(--text-subtle-color);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #007bff; /* Accent color on focus */
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+  border-color: var(--primary-accent-color);
+  background-color: var(--background-card-color); /* Whiter background on focus */
+  box-shadow: 0 0 0 3px var(--primary-accent-color-025); /* Use focus ring variable */
 }
 
-.submit-button {
-  background-color: #007bff; /* Primary accent color */
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-  align-self: center; /* Center button */
-  min-width: 150px;
+/* Submit button styling is primarily from .btn .btn-primary */
+/* This class is for layout adjustments if needed */
+.contact-form .submit-button-wrapper { /* Added a wrapper for button alignment */
+    margin-top: 10px; /* Space above button */
+    text-align: center; /* Center the button if it's inline-block */
 }
 
-.submit-button:hover {
-  background-color: #0056b3; /* Darker shade on hover */
-}
+/* .submit-button class on the button itself will pick up .btn .btn-primary */
+/* No specific appearance styles needed here for .submit-button if global .btn is sufficient */
 
-/* Responsive adjustments for the contact form container */
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
   .contact-page-container {
-    margin-left: 10px; /* Reduce side margins on smaller screens */
-    margin-right: 10px;
-    padding: 20px;
+    margin: 20px 15px; /* Adjust margins */
+    padding: 25px 20px; /* Adjust padding */
+  }
+  .contact-page-container h2 {
+    font-size: 1.6em;
+  }
+  .contact-page-container p.intro-text {
+    font-size: 0.95em;
+    margin-bottom: 25px;
+  }
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group textarea {
+    padding: 10px 12px;
+    font-size: 0.95em;
   }
 }

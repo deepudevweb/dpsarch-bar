@@ -7,24 +7,10 @@
   margin-top: 20px;
 }
 
+/* Specific button styles removed, will be handled by global .btn classes */
+/* Retain margin for spacing between buttons if not handled by .btn or utility classes */
 .pagination-controls button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
   margin: 0 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-}
-
-.pagination-controls button:hover {
-  background-color: #0056b3;
-}
-
-.pagination-controls button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
 }
 
 .pagination-controls span {
@@ -51,18 +37,23 @@
 }
 
 .main-content {
-  flex-grow: 1; /* Main content takes remaining width */
-  padding: 20px;
-  /* overflow-y: auto; */ /* If content overflows */
+  flex-grow: 1;
+  padding: 25px; /* Standardize main content padding */
+  /* overflow-y: auto; */ /* Consider if main content itself needs to scroll independently of window */
 }
 
 @media (max-width: 768px) {
   .app-container {
-    flex-direction: column; /* Stack sidebar and main content */
+    flex-direction: column; /* Stacks sidebar and main content */
   }
 
-  /* Further adjustments for main-content padding if needed on mobile */
   .main-content {
-    padding: 10px; /* Reduce padding on smaller screens */
+    padding: 20px; /* Slightly reduced padding for mobile main content */
   }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px; /* Further reduced padding for very small screens */
+    }
 }

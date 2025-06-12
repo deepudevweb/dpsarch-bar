@@ -3,121 +3,146 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333; /* Dark background for navbar */
-  padding: 10px 20px;
-  color: white;
+  background-color: var(--background-card-color); /* Use white for a cleaner look, with shadow */
+  padding: 15px 30px; /* Adjust padding */
+  color: var(--text-primary-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+  position: sticky; /* Make navbar sticky */
+  top: 0;
+  z-index: 1020; /* Ensure it's above content, below modals */
+  height: 70px; /* Define a height */
 }
 
 .navbar-logo a {
-  color: white;
+  color: var(--primary-accent-color); /* Use accent for logo text */
   text-decoration: none;
-  font-size: 1.5em;
-  font-weight: bold;
+  font-family: var(--font-family-headings);
+  font-size: 1.8em; /* Slightly larger logo */
+  font-weight: 700; /* Bolder logo */
 }
 
 .navbar-links {
   list-style: none;
   display: flex;
+  align-items: center; /* Vertically align items if navbar height allows */
   margin: 0;
   padding: 0;
 }
 
 .navbar-links li {
-  margin-left: 20px;
+  margin-left: 25px; /* Adjust spacing */
 }
 
 .navbar-links li a {
-  color: white;
+  color: var(--text-secondary-color); /* Use secondary text color for links */
   text-decoration: none;
-  font-size: 1em;
+  font-family: var(--font-family-body);
+  font-size: 1em; /* Standard body font size for links */
+  font-weight: 500; /* Slightly bolder than normal body text */
+  padding: 8px 12px; /* Add padding for larger click area and visual balance */
+  border-radius: 6px; /* Subtle rounded corners for links on hover/active */
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .navbar-links li a:hover {
-  text-decoration: underline;
+  color: var(--primary-accent-color);
+  background-color: rgba(0, 123, 255, 0.05); /* Very subtle background on hover */
+  text-decoration: none; /* Keep no underline on hover if background is used */
 }
 
-/* ... existing styles for .navbar, .navbar-logo, .navbar-links ... */
+.navbar-links li a.active-link { /* Hypothetical class for active route - needs react-router NavLink */
+  color: var(--primary-accent-color);
+  font-weight: 600;
+}
 
+
+/* Hamburger Menu Styles - Refined */
 .hamburger-menu {
-  display: none; /* Hidden by default on larger screens */
+  display: none;
   flex-direction: column;
   justify-content: space-around;
-  width: 30px; /* Width of the hamburger icon */
-  height: 25px; /* Height of the hamburger icon */
+  width: 28px;
+  height: 24px;
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1010; /* Ensure it's above other navbar items if needed, and above .navbar-links */
-  position: relative; /* For z-index and potential absolute positioning of children if needed */
+  z-index: 1030; /* Above navbar-links when open */
 }
 
 .hamburger-menu span {
   display: block;
   width: 100%;
-  height: 3px;
-  background-color: white;
+  height: 3px; /* Slightly thicker bars */
+  background-color: var(--text-primary-color); /* Use primary text color for visibility */
   border-radius: 3px;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1); /* Smoother transition */
 }
 
-/* Styles for mobile/smaller screens */
+/* Mobile/Smaller Screens - Refined */
 @media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px; /* Adjust padding for mobile */
+    height: 60px; /* Adjust height for mobile */
+  }
+
   .navbar-links {
-    display: none; /* Hidden by default */
+    display: none;
     flex-direction: column;
     width: 100%;
-    background-color: #333; /* Or a slightly different shade for dropdown */
+    background-color: var(--background-card-color); /* White background */
     position: absolute;
-    top: 60px; /* Assuming navbar height is approx 60px. Adjust if necessary. */
+    top: 60px; /* Match navbar height */
     left: 0;
-    padding: 0; /* Remove padding when hidden */
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1000; /* Below hamburger button but above page content */
+    padding: 10px 0; /* Padding when open */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+    z-index: 1020; /* Below hamburger, above page content */
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out, padding-top 0.4s ease-out, padding-bottom 0.4s ease-out;
+    transition: max-height 0.3s ease-in-out, padding-top 0.3s ease-in-out, padding-bottom 0.3s ease-in-out;
   }
 
   .navbar-links.active {
     display: flex;
-    max-height: 300px; /* Example max-height, adjust based on number of links */
-    padding-top: 10px; /* Add padding when active */
-    padding-bottom: 10px;
+    max-height: calc(100vh - 60px); /* Allow full height scroll if many links */
+    overflow-y: auto; /* Allow scrolling if content overflows */
   }
 
   .navbar-links li {
-    margin: 0; /* Reset margin for full-width items */
+    margin: 0;
     width: 100%;
-    text-align: center;
   }
 
   .navbar-links li a {
-    display: block; /* Make links take full width for easier clicking */
-    padding: 12px 20px; /* Padding for each link */
-    width: 100%;
-    box-sizing: border-box;
+    display: block;
+    padding: 15px 20px; /* Larger tap targets for mobile */
+    text-align: left; /* Align text to left for dropdown items */
+    border-bottom: 1px solid var(--border-color); /* Separator for links */
+  }
+  .navbar-links li:last-child a {
+    border-bottom: none;
   }
 
   .navbar-links li a:hover {
-    background-color: #444; /* Hover effect for links in dropdown */
-    text-decoration: none; /* Remove underline if not desired on hover here */
+    background-color: var(--background-main-color); /* Use main bg for hover in mobile */
+    color: var(--primary-accent-color);
   }
 
   .hamburger-menu {
-    display: flex; /* Show hamburger on small screens */
+    display: flex;
   }
 }
 
-/* Hamburger icon animation (transform to 'X') */
+/* Hamburger Icon Animation (X) - Refined */
 .hamburger-menu.active span:nth-child(1) {
-  transform: translateY(8px) rotate(45deg);
+  transform: translateY(7.5px) rotate(45deg); /* Adjusted for 3px bar height */
 }
 
 .hamburger-menu.active span:nth-child(2) {
   opacity: 0;
+  transform: translateX(-100%); /* Move out of view */
 }
 
 .hamburger-menu.active span:nth-child(3) {
-  transform: translateY(-8px) rotate(-45deg);
+  transform: translateY(-7.5px) rotate(-45deg); /* Adjusted for 3px bar height */
 }

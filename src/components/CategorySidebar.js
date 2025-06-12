@@ -1,16 +1,18 @@
 import React from 'react';
 import './CategorySidebar.css';
 
-function CategorySidebar({ onSelectCategory }) { // Added onSelectCategory prop
+// Add activeCategory to props
+function CategorySidebar({ onSelectCategory, activeCategory }) {
   const categories = [
     "Nature", "Animals", "Movies", "Cars",
     "Girls", "Funny", "Travel", "Seasons"
+    // Add more or fetch dynamically in a real app
   ];
 
   const handleCategoryClick = (category) => {
-    console.log("Selected category:", category);
+    // console.log("Selected category:", category); // Keep for debugging if needed
     if (onSelectCategory) {
-      onSelectCategory(category); // Call the prop function if provided
+      onSelectCategory(category);
     }
   };
 
@@ -21,7 +23,8 @@ function CategorySidebar({ onSelectCategory }) { // Added onSelectCategory prop
         {categories.map((category) => (
           <li
             key={category}
-            className="category-item"
+            // Apply 'active-category' class if current category matches activeCategory prop
+            className={`category-item ${category === activeCategory ? 'active-category' : ''}`}
             onClick={() => handleCategoryClick(category)}
           >
             {category}

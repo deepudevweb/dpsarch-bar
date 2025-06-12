@@ -5,98 +5,120 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.8); /* Slightly darker overlay for more focus */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure it's on top */
+  z-index: 1050; /* High z-index */
+  padding: 20px; /* Add padding for smaller screens so modal doesn't touch edges */
+  box-sizing: border-box;
 }
 
 .image-modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-color: var(--background-card-color);
+  padding: 30px; /* Increased padding */
+  border-radius: 12px; /* Consistent with new card style */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Refined shadow */
   position: relative;
-  max-width: 90vw; /* Max width relative to viewport */
-  max-height: 90vh; /* Max height relative to viewport */
+  max-width: 90vw;
+  width: auto; /* Allow content to dictate width up to max-width */
+  max-height: 90vh; /* Allow it to be scrollable if content exceeds */
+  overflow-y: auto; /* Enable vertical scroll for tall content */
   display: flex;
-  flex-direction: column; /* Image above actions */
-  align-items: center; /* Center content like button */
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-image-preview {
-  max-width: 100%; /* Ensure image is responsive within modal content */
-  max-height: 70vh; /* Limit image height to leave space for actions */
-  object-fit: contain; /* Show whole image, maintain aspect ratio */
-  border-radius: 4px;
-  margin-bottom: 15px;
+  max-width: 100%;
+  max-height: calc(85vh - 180px); /* Adjusted to give more space, considering padding & actions */
+  object-fit: contain;
+  border-radius: 8px; /* Rounded corners for the image itself */
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color); /* Subtle border around image */
 }
 
 .modal-close-button {
   position: absolute;
-  top: 10px;
+  top: 15px; /* Adjusted position */
   right: 15px;
   background: transparent;
   border: none;
-  font-size: 2em;
-  color: #555;
+  font-size: 2.5em; /* Larger close icon */
+  color: var(--text-subtle-color);
   cursor: pointer;
   line-height: 1;
+  padding: 5px; /* Increase clickable area */
+  transition: color 0.2s ease;
 }
 
 .modal-close-button:hover {
-  color: #000;
+  color: var(--text-primary-color);
 }
 
 .modal-actions {
   text-align: center;
-  width: 100%; /* Ensure actions container takes width for centering options */
-  margin-top: 15px; /* Add some space above resolution options */
+  width: 100%;
+  margin-top: 10px; /* Reduced top margin as preview has more bottom margin */
 }
 
 .modal-image-title {
-  font-size: 1.1em;
-  font-weight: bold;
-  margin: 0 0 5px 0;
-  color: #333;
+  font-family: var(--font-family-headings);
+  font-size: 1.4em; /* Larger title in modal */
+  font-weight: 600;
+  color: var(--text-primary-color);
+  margin: 0 0 10px 0;
 }
 
+/* Resolution label (e.g., "Original: 1920x1080") - this was from ImageModal.js but not explicitly styled before */
 .modal-image-resolution {
+  font-family: var(--font-family-body);
   font-size: 0.9em;
-  margin: 0 0 15px 0; /* Keep this margin if title and original resolution are above options */
-  color: #666;
+  color: var(--text-secondary-color);
+  margin-bottom: 15px;
 }
 
-/* Styles for new resolution options */
+
 .resolution-options {
-  margin-top: 15px;
+  margin-top: 10px;
   display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  align-items: center; /* Center buttons in the column */
-  gap: 10px; /* Space between resolution buttons */
+  flex-direction: column;
+  align-items: stretch; /* Make buttons take full width of this container */
+  gap: 12px; /* Space between resolution buttons */
+  width: 100%;
+  max-width: 320px; /* Max width for download buttons */
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.resolution-label {
-  font-size: 0.95em;
-  color: #444;
-  margin-bottom: 8px;
+.resolution-label { /* "Download options:" text */
+  font-family: var(--font-family-body);
+  font-size: 1em; /* Clearer label */
+  color: var(--text-primary-color);
+  margin-bottom: 10px;
   font-weight: 500;
 }
 
-.resolution-button {
-  background-color: #6c757d; /* A secondary/neutral color */
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.15s ease-in-out;
-  min-width: 200px; /* Give buttons a consistent width */
-  text-align: center;
-}
+/* .resolution-button specific styles removed, will be handled by global .btn classes */
+/* .resolution-options container styles are kept for layout of these buttons */
 
-.resolution-button:hover {
-  background-color: #5a6268; /* Darken on hover */
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .image-modal-content {
+    padding: 20px; /* Reduce padding on smaller modals */
+    max-width: 95vw; /* Allow slightly wider on mobile */
+  }
+  .modal-image-preview {
+    max-height: calc(80vh - 150px); /* Adjust max height */
+  }
+  .modal-image-title {
+    font-size: 1.2em;
+  }
+  .resolution-options {
+    max-width: 100%; /* Allow buttons to use more width */
+  }
+  .resolution-button {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
 }

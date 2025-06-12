@@ -27,7 +27,7 @@ function ContactPage() {
   return (
     <div className="contact-page-container">
       <h2>Contact Us</h2>
-      <p>Have a question or feedback? Fill out the form below to get in touch with us.</p>
+      <p className="intro-text">Have a question or feedback? Fill out the form below to get in touch with us.</p> {/* Added class */}
       <form className="contact-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
@@ -62,7 +62,9 @@ function ContactPage() {
             required
           ></textarea>
         </div>
-        <button type="submit" className="submit-button">Send Message</button>
+        <div className="submit-button-wrapper"> {/* Added wrapper */}
+          <button type="submit" className="btn btn-primary">Send Message</button>
+        </div>
       </form>
     </div>
   );

@@ -1,17 +1,22 @@
 /* src/components/CategorySidebar.css */
 .category-sidebar {
-  width: 200px; /* Fixed width for the sidebar */
-  padding: 20px;
-  background-color: #f8f9fa; /* Light grey background */
-  border-right: 1px solid #e0e0e0;
-  height: 100%; /* Try to make it full height, might need App.js layout adjustments */
+  width: 240px; /* Slightly wider for better spacing */
+  padding: 25px 20px; /* Adjust padding */
+  background-color: var(--background-card-color); /* Use card background for sidebar */
+  border-right: 1px solid var(--border-color);
+  /* height: 100%; Removed, as App.js flex layout handles height better */
+  /* Consider overflow-y: auto if many categories and fixed height */
 }
 
 .category-sidebar h3 {
+  font-family: var(--font-family-headings);
+  font-size: 1.3em; /* Slightly larger heading */
+  font-weight: 600;
+  color: var(--text-primary-color);
   margin-top: 0;
-  font-size: 1.2em;
-  color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 20px; /* More space below heading */
+  padding-bottom: 10px; /* Add padding for a border effect */
+  border-bottom: 1px solid var(--border-color); /* Separator under heading */
 }
 
 .category-list {
@@ -21,42 +26,73 @@
 }
 
 .category-item {
-  padding: 8px 0;
-  cursor: pointer;
-  color: #007bff; /* Accent color for links/items */
+  font-family: var(--font-family-body);
   font-size: 0.95em;
+  font-weight: 500; /* Slightly bolder items */
+  color: var(--text-secondary-color);
+  padding: 10px 15px; /* Increased padding for better click targets */
+  margin-bottom: 5px; /* Space between items */
+  border-radius: 6px; /* Rounded corners for items */
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: block; /* Ensure it takes full width for padding and hover */
 }
 
 .category-item:hover {
-  text-decoration: underline;
-  color: #0056b3;
+  background-color: var(--primary-accent-color-005); /* Need to define this: rgba(0,123,255,0.05) */
+  color: var(--primary-accent-color);
 }
 
+/* Style for an 'active' category - needs JS to add this class */
+.category-item.active-category {
+  background-color: var(--primary-accent-color-01); /* Need to define this: rgba(0,123,255,0.1) */
+  color: var(--primary-accent-color);
+  font-weight: 600;
+}
+
+/* Responsive Styles - Refined */
 @media (max-width: 768px) {
   .category-sidebar {
-    width: 100%; /* Take full width */
-    height: auto; /* Adjust height to content */
-    border-right: none; /* Remove right border */
-    border-bottom: 1px solid #e0e0e0; /* Add bottom border */
-    margin-bottom: 15px; /* Space it from main content when stacked */
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px; /* Consistent margin */
+    padding: 15px; /* Adjust padding for mobile */
   }
 
   .category-sidebar h3 {
-    text-align: center; /* Center title on mobile if desired */
+    font-size: 1.2em;
+    text-align: center; /* Keep centered title for mobile */
+    margin-bottom: 15px;
+    padding-bottom: 8px;
   }
 
   .category-list {
-    display: flex; /* Arrange categories in a row */
-    flex-wrap: wrap; /* Allow wrapping */
-    justify-content: center; /* Center wrapped items */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center tags */
+    gap: 8px; /* Use gap for spacing between tags */
   }
 
   .category-item {
-    padding: 8px 12px; /* Adjust padding for horizontal items */
-    margin: 5px; /* Add some margin around items */
-    border: 1px solid #ddd; /* Optional: add border to make them look like tags */
-    border-radius: 15px; /* Optional: rounded tags */
-    flex-grow: 1; /* Allow items to grow if space allows */
-    text-align: center; /* Center text within each item */
+    padding: 8px 15px; /* Padding for tag-like appearance */
+    margin-bottom: 0; /* Gap handles spacing */
+    border: 1px solid var(--border-color); /* Keep border for tag look */
+    border-radius: 20px; /* Pill-shaped tags */
+    flex-grow: 0; /* Don't allow tags to grow excessively */
+    /* color: var(--text-primary-color); */ /* Optionally darker text for tags */
+  }
+
+  .category-item:hover {
+    border-color: var(--primary-accent-color);
+    /* background-color: var(--primary-accent-color); */ /* Keep hover subtle or more pronounced */
+    /* color: var(--background-card-color); */
+  }
+
+  .category-item.active-category {
+    background-color: var(--primary-accent-color);
+    color: var(--background-card-color); /* White text on active accent bg */
+    border-color: var(--primary-accent-color);
   }
 }
