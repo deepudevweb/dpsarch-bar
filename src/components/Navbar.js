@@ -1,18 +1,37 @@
-import React from 'react';
-import './Navbar.css'; // We will create this CSS file next
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
 function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // Function to close menu, e.g., when a link is clicked on mobile
+  const closeMobileMenu = () => {
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <a href="/">Logo</a> {/* Placeholder logo */}
+        <Link to="/" onClick={closeMobileMenu}>DP Wallpapers</Link>
       </div>
-      <ul className="navbar-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/latest">Latest Wallpapers</a></li>
-        <li><a href="/top">Top Wallpapers</a></li>
-        <li><a href="/upload">Upload</a></li>
-        <li><a href="/account">Account</a></li>
+      <button className={`hamburger-menu ${isOpen ? 'active' : ''}`} onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={isOpen}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <ul className={`navbar-links ${isOpen ? 'active' : ''}`}>
+        <li><Link to="/" onClick={closeMobileMenu}>Home</Link></li>
+        <li><Link to="/latest" onClick={closeMobileMenu}>Latest Wallpapers</Link></li>
+        <li><Link to="/top" onClick={closeMobileMenu}>Top Wallpapers</Link></li>
+        <li><Link to="/upload" onClick={closeMobileMenu}>Upload</Link></li>
+        <li><Link to="/account" onClick={closeMobileMenu}>Account</Link></li>
       </ul>
     </nav>
   );

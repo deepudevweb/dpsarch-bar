@@ -1,59 +1,64 @@
 /* src/components/SearchBar.css */
 .search-bar-container {
   display: flex;
-  justify-content: center; /* Center the form */
-  padding: 20px;
-  margin-top: 20px; /* Add some margin from the navbar */
+  justify-content: center;
+  padding: 25px 20px; /* Increased padding */
+  margin-top: 25px; /* Increased margin */
 }
 
 .search-bar-form {
-  display: flex; /* Align input and button inline */
+  display: flex;
   align-items: center;
-  width: auto; /* Allow form to shrink to content */
-  max-width: 600px; /* Max width for the search bar */
-  border: 1px solid #ccc;
-  border-radius: 25px; /* Rounded corners for the form itself */
-  padding: 5px;
-  background-color: white;
+  width: 100%; /* Allow it to take width but constrained by max-width */
+  max-width: 700px; /* Slightly wider */
+  background-color: #ffffff;
+  border-radius: 30px; /* More rounded */
+  padding: 8px 8px 8px 20px; /* Adjust padding: left for text, right for button */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer, more modern shadow */
+  border: 1px solid #e0e0e0; /* Lighter border, or remove if shadow is enough */
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.search-bar-form:hover,
+.search-bar-form:focus-within { /* Apply shadow when form or its elements are focused */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-color: #c0c0c0;
 }
 
 .search-bar-form input {
-  flex-grow: 1; /* Input takes available space */
+  flex-grow: 1;
   border: none;
   outline: none;
-  padding: 10px 15px;
-  font-size: 1em;
+  padding: 12px 0; /* Increased vertical padding, no horizontal as form handles it */
+  font-size: 1.05em; /* Slightly larger font */
+  color: #333;
   background-color: transparent;
-  border-radius: 20px 0 0 20px; /* Match parent rounding on one side */
+  font-family: 'Roboto', sans-serif; /* Example Google Font */
+}
+
+.search-bar-form input::placeholder {
+  color: #888;
+  font-family: 'Roboto', sans-serif;
 }
 
 .search-bar-form .search-button {
-  background-color: #007bff; /* Example accent color */
+  background-color: #007bff; /* Keep primary blue, or change to a new accent */
+  /* Or a subtle gradient: background-image: linear-gradient(to right, #007bff, #0056b3); */
   color: white;
   border: none;
-  padding: 10px 15px;
-  border-radius: 0 20px 20px 0; /* Match parent rounding on one side */
+  padding: 10px 18px; /* Adjust padding */
+  border-radius: 22px; /* Fully rounded button within the form's curve */
   cursor: pointer;
-  font-size: 1em;
+  font-size: 1.1em; /* Icon size / button text size */
+  margin-left: 8px; /* Space between input and button */
+  transition: background-color 0.2s ease;
 }
 
 .search-bar-form .search-button:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Darken on hover */
+  /* background-image: linear-gradient(to right, #0069d9, #004085); */
 }
 
-/* Remove default styling from existing .search-bar if it conflicts */
-/* For example, if .search-bar had display:flex and flex-direction:column */
-.search-bar {
-  /* This class was on the root div in the original SearchBar.js. */
-  /* It might need to be adjusted or its styles removed if they conflict */
-  /* with .search-bar-container or .search-bar-form. */
-  /* For now, let's assume new classes will override or it's not an issue. */
-}
-
-/* Styles for original .search-bar.form if any, might need adjustment */
-/* For instance, the label was part of this form. */
-/* If label is removed, this might not be needed or can be simplified. */
-.search-bar.form label {
-  /* display: block; */ /* If label is kept, adjust as needed */
-  /* margin-bottom: 5px; */
+.search-bar-form .search-button span { /* For the icon emoji */
+  display: block; /* Helps with alignment sometimes */
 }
