@@ -1,0 +1,33 @@
+/* src/components/CategorySidebar.css */
+.category-sidebar {
+  width: 200px; /* Fixed width for the sidebar */
+  padding: 20px;
+  background-color: #f8f9fa; /* Light grey background */
+  border-right: 1px solid #e0e0e0;
+  height: 100%; /* Try to make it full height, might need App.js layout adjustments */
+}
+
+.category-sidebar h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-item {
+  padding: 8px 0;
+  cursor: pointer;
+  color: #007bff; /* Accent color for links/items */
+  font-size: 0.95em;
+}
+
+.category-item:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}

@@ -1,14 +1,69 @@
+/* src/components/ImageList.css - Append or replace if only card styles are needed */
+
+/* Existing .image-list styles - ensure it's a grid container */
 .image-list {
-    columns: 6 200px;
-    column-count: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Example responsive grid */
+  grid-gap: 20px; /* Spacing between cards */
+  padding: 20px;
 }
-img {
-    width: 100%;
-    margin-bottom: 10px;
-    cursor: pointer;
+
+.image-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
+  overflow: hidden; /* Ensures content like image doesn't break rounded corners */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column; /* Stack image, info, button vertically */
 }
-img:hover {
-    transition: all .2s;
-    transform: scale(1.1);
-    box-shadow: 0 4px 5px rgba(0,0,0,0.5);
+
+.image-card:hover {
+  transform: translateY(-5px); /* Hover effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.image-thumbnail {
+  width: 100%;
+  height: 200px; /* Fixed height for thumbnails, or use aspect-ratio */
+  object-fit: cover; /* Cover ensures image fills space without distortion */
+}
+
+.image-info {
+  padding: 10px 15px;
+  flex-grow: 1; /* Allows info to take available space if card height is fixed/flexed */
+}
+
+.image-title {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Prevent long titles from breaking layout */
+}
+
+.image-resolution {
+  font-size: 0.8em;
+  color: #777;
+  margin: 0;
+}
+
+.download-button-card { /* Style for download button on card */
+  background-color: #007bff; /* Or your accent color */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  margin: 10px 15px; /* Margin to push it from edges of info */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  align-self: flex-start; /* Align button to the left within the card */
+}
+
+.download-button-card:hover {
+  background-color: #0056b3;
 }

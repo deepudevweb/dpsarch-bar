@@ -1,0 +1,30 @@
+/* src/components/NewFooter.css */
+.new-footer {
+  background-color: #333; /* Dark background for footer */
+  color: #aaa; /* Light grey text color */
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid #444;
+  margin-top: auto; /* Pushes footer to bottom if app-layout is flex-column and has min-height: 100vh */
+}
+
+.footer-links {
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  color: #00aaff; /* Accent color for links - example blue */
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 0.9em;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+  color: #00eeff;
+}
+
+.footer-copyright p {
+  margin: 0;
+  font-size: 0.8em;
+}
