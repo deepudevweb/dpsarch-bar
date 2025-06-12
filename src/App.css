@@ -32,3 +32,26 @@
   font-size: 1em;
   color: #333;
 }
+
+/* Optional: Ensure full height for layout if sidebar needs 100vh */
+/* html, body, #root, .app-layout {
+  height: 100%;
+} */
+
+.app-layout {
+  display: flex;
+  flex-direction: column; /* Navbar on top, then container, then footer */
+  min-height: 100vh; /* Ensure it takes at least full viewport height */
+}
+
+.app-container {
+  display: flex; /* Sidebar and main content side-by-side */
+  flex-grow: 1; /* Allows this container to fill space if app-layout is flex-column */
+  /* If sidebar has fixed width, main content can take the rest */
+}
+
+.main-content {
+  flex-grow: 1; /* Main content takes remaining width */
+  padding: 20px;
+  /* overflow-y: auto; */ /* If content overflows */
+}

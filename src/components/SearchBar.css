@@ -1,18 +1,59 @@
+/* src/components/SearchBar.css */
+.search-bar-container {
+  display: flex;
+  justify-content: center; /* Center the form */
+  padding: 20px;
+  margin-top: 20px; /* Add some margin from the navbar */
+}
+
+.search-bar-form {
+  display: flex; /* Align input and button inline */
+  align-items: center;
+  width: auto; /* Allow form to shrink to content */
+  max-width: 600px; /* Max width for the search bar */
+  border: 1px solid #ccc;
+  border-radius: 25px; /* Rounded corners for the form itself */
+  padding: 5px;
+  background-color: white;
+}
+
+.search-bar-form input {
+  flex-grow: 1; /* Input takes available space */
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  background-color: transparent;
+  border-radius: 20px 0 0 20px; /* Match parent rounding on one side */
+}
+
+.search-bar-form .search-button {
+  background-color: #007bff; /* Example accent color */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 0 20px 20px 0; /* Match parent rounding on one side */
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.search-bar-form .search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Remove default styling from existing .search-bar if it conflicts */
+/* For example, if .search-bar had display:flex and flex-direction:column */
 .search-bar {
-    border: 1px solid #A9A9A9;
-    border-radius: 5px;
-    padding: 10px;
+  /* This class was on the root div in the original SearchBar.js. */
+  /* It might need to be adjusted or its styles removed if they conflict */
+  /* with .search-bar-container or .search-bar-form. */
+  /* For now, let's assume new classes will override or it's not an issue. */
 }
-.search-bar form {
-    display: flex;
-    flex-direction: column;
-    background-color:  #f7cac9
-}
-.search-bar form:hover {
-    background-color: #FFB6C1;
-}
-.search-bar form label {
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 20px;
-    color: #505050;
+
+/* Styles for original .search-bar.form if any, might need adjustment */
+/* For instance, the label was part of this form. */
+/* If label is removed, this might not be needed or can be simplified. */
+.search-bar.form label {
+  /* display: block; */ /* If label is kept, adjust as needed */
+  /* margin-bottom: 5px; */
 }

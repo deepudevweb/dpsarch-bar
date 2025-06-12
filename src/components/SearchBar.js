@@ -1,3 +1,4 @@
+// src/components/SearchBar.js
 import './SearchBar.css';
 import { useState } from 'react';
 
@@ -6,7 +7,6 @@ function SearchBar({ onSubmit }) {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
     onSubmit(term);
   };
 
@@ -15,10 +15,18 @@ function SearchBar({ onSubmit }) {
   };
 
   return (
-    <div className='search-bar'>
-      <form className='search-bar form' onSubmit={handleFormSubmit}>
-        <label>Enter to search images</label>
-        <input value={term} onChange={handleChange} />
+    <div className="search-bar-container"> {/* Changed class for overall container */}
+      <form className="search-bar-form" onSubmit={handleFormSubmit}>
+        {/* Original label can be kept or removed based on new design preference */}
+        {/* <label>Enter to search images</label> */}
+        <input
+          value={term}
+          onChange={handleChange}
+          placeholder="Enter to search images" // Ensure placeholder
+        />
+        <button type="submit" className="search-button">
+          <span role="img" aria-label="search">🔍</span> {/* Search icon */}
+        </button>
       </form>
     </div>
   );
