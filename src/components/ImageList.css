@@ -67,3 +67,20 @@
 .download-button-card:hover {
   background-color: #0056b3;
 }
+
+@media (max-width: 480px) { /* For very small screens */
+  .image-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller min size for items */
+    /* Or, for a single column layout: */
+    /* grid-template-columns: 1fr; */
+    grid-gap: 10px; /* Reduce gap */
+    padding: 10px; /* Reduce padding */
+  }
+
+  .image-card {
+    /* Potentially adjust card styling for very small screens if needed */
+  }
+  .image-thumbnail {
+    height: 120px; /* Adjust thumbnail height for smaller cards */
+  }
+}

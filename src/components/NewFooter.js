@@ -1,18 +1,18 @@
 import React from 'react';
-import './NewFooter.css'; // We will create this CSS file next
+import { Link } from 'react-router-dom'; // Import Link
+import './NewFooter.css';
 
 function NewFooter() {
   return (
     <footer className="new-footer">
       <div className="footer-links">
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-        <a href="/privacy">Privacy Policy</a>
-        <a href="/categories">Categories</a>
+        <Link to="/about">About</Link> {/* Changed to Link */}
+        <Link to="/contact">Contact</Link> {/* Changed to Link */}
+        <Link to="/privacy">Privacy Policy</Link> {/* Changed to Link */}
+        <Link to="/categories">Categories</Link> {/* Changed to Link */}
       </div>
       <div className="footer-copyright">
-        <p>&copy; {new Date().getFullYear()} Your Wallpaper App. All Rights Reserved.</p>
-        {/* Changed "projecet" to a more generic placeholder for a new footer */}
+        <p>&copy; {new Date().getFullYear()} DP Wallpapers. All Rights Reserved.</p>
       </div>
     </footer>
   );

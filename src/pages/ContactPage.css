@@ -1,0 +1,85 @@
+/* src/pages/ContactPage.css */
+.contact-page-container {
+  max-width: 700px;
+  margin: 20px auto; /* Center it and add some margin from main-content padding */
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.contact-page-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.contact-page-container p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 0.95em;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+  font-size: 0.9em;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box; /* Important for width and padding */
+  font-size: 1em;
+  font-family: 'Roboto', sans-serif; /* Match other inputs if set */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff; /* Accent color on focus */
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+.submit-button {
+  background-color: #007bff; /* Primary accent color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  align-self: center; /* Center button */
+  min-width: 150px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Responsive adjustments for the contact form container */
+@media (max-width: 768px) {
+  .contact-page-container {
+    margin-left: 10px; /* Reduce side margins on smaller screens */
+    margin-right: 10px;
+    padding: 20px;
+  }
+}

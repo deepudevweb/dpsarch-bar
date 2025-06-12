@@ -55,3 +55,14 @@
   padding: 20px;
   /* overflow-y: auto; */ /* If content overflows */
 }
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column; /* Stack sidebar and main content */
+  }
+
+  /* Further adjustments for main-content padding if needed on mobile */
+  .main-content {
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+}
