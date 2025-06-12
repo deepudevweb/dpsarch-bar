@@ -12,7 +12,7 @@ const searchImages = async (term, page) => {
     },
   });
 
-  return response.data.results;
+  return response.data; // This line needs to change
 };
 
 export default searchImages;
