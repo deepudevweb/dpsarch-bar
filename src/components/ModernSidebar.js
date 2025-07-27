@@ -1,27 +1,26 @@
 import React from 'react';
-import './CategorySidebar.css';
+import './ModernSidebar.css';
 
-function CategorySidebar({ onSelectCategory }) { // Added onSelectCategory prop
+function ModernSidebar({ onSelectCategory }) {
   const categories = [
     "Nature", "Animals", "Movies", "Cars",
     "Girls", "Funny", "Travel", "Seasons"
   ];
 
   const handleCategoryClick = (category) => {
-    console.log("Selected category:", category);
     if (onSelectCategory) {
-      onSelectCategory(category); // Call the prop function if provided
+      onSelectCategory(category);
     }
   };
 
   return (
-    <aside className="category-sidebar">
+    <aside className="modern-sidebar">
       <h3>Categories</h3>
-      <ul className="category-list">
+      <ul className="modern-sidebar-list">
         {categories.map((category) => (
           <li
             key={category}
-            className="category-item"
+            className="modern-sidebar-item"
             onClick={() => handleCategoryClick(category)}
           >
             {category}
@@ -32,4 +31,4 @@ function CategorySidebar({ onSelectCategory }) { // Added onSelectCategory prop
   );
 }
 
-export default CategorySidebar;
+export default ModernSidebar;

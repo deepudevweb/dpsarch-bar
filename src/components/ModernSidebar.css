@@ -1,0 +1,62 @@
+/* src/components/ModernSidebar.css */
+.modern-sidebar {
+  width: 220px;
+  padding: 25px;
+  background-color: #f4f7f6;
+  border-right: 1px solid #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modern-sidebar h3 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #00bcd4;
+  padding-bottom: 10px;
+}
+
+.modern-sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modern-sidebar-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  color: #555;
+  font-size: 1.1em;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  margin-bottom: 8px;
+}
+
+.modern-sidebar-item:hover {
+  background-color: #00bcd4;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .modern-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+  }
+
+  .modern-sidebar h3 {
+    text-align: center;
+  }
+
+  .modern-sidebar-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .modern-sidebar-item {
+    margin: 5px;
+    flex-grow: 1;
+    text-align: center;
+  }
+}

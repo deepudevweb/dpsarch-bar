@@ -1,13 +1,14 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import ModernNavbar from './components/ModernNavbar';
 import SearchBar from './components/SearchBar';
 import ImageList from './components/ImageList';
 import { searchImages, getLatestImages } from './api'; // Updated import
-import NewFooter from './components/NewFooter';
-import CategorySidebar from './components/CategorySidebar';
+import ModernFooter from './components/ModernFooter';
+import ModernSidebar from './components/ModernSidebar';
 import ImageModal from './components/ImageModal';
+import WallpaperCarousel from './components/WallpaperCarousel';
 import './App.css';
 
 // Import Page Components
@@ -30,8 +31,21 @@ function App() {
   const [selectedModalImage, setSelectedModalImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentView, setCurrentView] = useState('search'); // 'search', 'latest', 'category'
+  const [carouselImages, setCarouselImages] = useState([]);
 
   const location = useLocation();
+
+  useEffect(() => {
+    const fetchCarouselImages = async () => {
+      try {
+        const response = await getLatestImages(1, 5); // Fetch 5 latest images
+        setCarouselImages(response.results);
+      } catch (error) {
+        console.error("Error fetching carousel images:", error);
+      }
+    };
+    fetchCarouselImages();
+  }, []);
 
   useEffect(() => {
     const path = location.pathname;
@@ -164,9 +178,10 @@ function App() {
 
   return (
     <div className="app-layout">
-      <Navbar />
+      <ModernNavbar onSearchSubmit={handleSubmit} />
+      <WallpaperCarousel images={carouselImages} />
       <div className="app-container">
-        <CategorySidebar onSelectCategory={handleCategorySelect} />
+        <ModernSidebar onSelectCategory={handleCategorySelect} />
         <main className="main-content">
           <Routes>
             <Route path="/" element={<MainContent currentView={currentView} />} />
@@ -181,7 +196,7 @@ function App() {
           </Routes>
         </main>
       </div>
-      <NewFooter />
+      <ModernFooter />
       {isModalOpen && selectedModalImage && (
         <ImageModal image={selectedModalImage} onClose={handleCloseModal} />
       )}
