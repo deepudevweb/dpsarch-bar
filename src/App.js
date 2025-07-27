@@ -1,24 +1,35 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
+
+// Components
 import Navbar from './components/Navbar';
 import SearchBar from './components/SearchBar';
 import ImageList from './components/ImageList';
-import { searchImages, getLatestImages } from './api'; // Updated import
-import NewFooter from './components/NewFooter';
 import CategorySidebar from './components/CategorySidebar';
 import ImageModal from './components/ImageModal';
-import './App.css';
+import HeroCarousel from './components/HeroCarousel';
+import Footer from './components/Footer';
 
-// Import Page Components
-import LatestPage from './pages/LatestPage'; // Will be rendered via MainContent now
-import TopPage from './pages/TopPage';
-import UploadPage from './pages/UploadPage';
-import AccountPage from './pages/AccountPage';
-import ContactPage from './pages/ContactPage';
-import AboutPage from './pages/AboutPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+// Pages
+import LatestPage from './pages/LatestPage';
+import FeaturedPage from './pages/FeaturedPage';
 import CategoriesPage from './pages/CategoriesPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+
+// API
+import { 
+  searchImages, 
+  getLatestImages, 
+  getFeaturedImages, 
+  getCategoryImages 
+} from './api';
+
+import './App.css';
 
 function App() {
   const [images, setImages] = useState([]);
@@ -29,43 +40,33 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedModalImage, setSelectedModalImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentView, setCurrentView] = useState('search'); // 'search', 'latest', 'category'
+  const [currentView, setCurrentView] = useState('home');
 
   const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname;
-    setCurrentPage(1); // Reset page to 1 on any route change for simplicity here
+    setCurrentPage(1);
 
-    if (path === '/latest') {
+    if (path === '/') {
+      setCurrentView('home');
+      // Don't auto-load images on home page - let hero carousel handle it
+      setImages([]);
+      setCurrentQuery('');
+      setSelectedCategory('');
+    } else if (path === '/latest') {
       setCurrentView('latest');
-      fetchLatestRouteData(1);
-    } else if (path === '/top') {
-      setCurrentView('search'); // Or a new 'top' view if preferred for different UI
-      performSearch('wallpapers', 1, false); // Search for 'wallpapers'
-    } else if (path === '/') {
-      // Default home page logic (e.g., show latest or clear)
-      if (!currentQuery && !selectedCategory) { // Only if no active search/category
-        setCurrentView('latest');
-        fetchLatestRouteData(1);
-      } else {
-        // If there was an active query/category, it remains.
-        // This part might need refinement based on desired UX for navigating "home"
-        // For instance, should it always clear and show latest, or remember last search?
-        // For now, if a search/category was active, it will persist unless explicitly cleared.
-        // Let's ensure currentView is set correctly if navigating back to / with active search
-        setCurrentView(selectedCategory ? 'category' : (currentQuery ? 'search' : 'latest'));
-      }
+      fetchLatestData(1);
+    } else if (path === '/featured') {
+      setCurrentView('featured');
+      fetchFeaturedData(1);
     }
-    // Other routes like /upload, /account, /contact are just showing placeholder pages
-    // and don't need data fetching in this useEffect.
-  }, [location.pathname]); // React to path changes
+  }, [location.pathname]);
 
-  const fetchLatestRouteData = async (page) => {
+  const fetchLatestData = async (page) => {
     setIsLoading(true);
     setCurrentQuery('');
     setSelectedCategory('');
-    // setCurrentView('latest'); // Set by useEffect or specific nav action
     try {
       const response = await getLatestImages(page);
       setImages(response.results);
@@ -79,21 +80,41 @@ function App() {
     setIsLoading(false);
   };
 
+  const fetchFeaturedData = async (page) => {
+    setIsLoading(true);
+    setCurrentQuery('');
+    setSelectedCategory('');
+    try {
+      const response = await getFeaturedImages(page);
+      setImages(response.results);
+      setTotalPages(response.total_pages);
+      setCurrentPage(page);
+    } catch (error) {
+      console.error("Error fetching featured images:", error);
+      setImages([]);
+      setTotalPages(0);
+    }
+    setIsLoading(false);
+  };
+
   const performSearch = async (query, page, isCategorySearch = false) => {
     setIsLoading(true);
     try {
-      const response = await searchImages(query, page);
-      setImages(response.results);
-      setTotalPages(response.total_pages);
+      let response;
       if (isCategorySearch) {
+        response = await getCategoryImages(query, page);
         setSelectedCategory(query);
         setCurrentQuery('');
         setCurrentView('category');
       } else {
+        response = await searchImages(query, page);
         setCurrentQuery(query);
         setSelectedCategory('');
         setCurrentView('search');
       }
+      
+      setImages(response.results);
+      setTotalPages(response.total_pages);
       setCurrentPage(page);
     } catch (error) {
       console.error("Error fetching images:", error);
@@ -103,12 +124,11 @@ function App() {
     setIsLoading(false);
   };
 
-  const handleSubmit = async (term) => {
+  const handleSearchSubmit = async (term) => {
     performSearch(term, 1, false);
   };
 
   const handleCategorySelect = async (category) => {
-    console.log("Category selected in App.js:", category);
     performSearch(category, 1, true);
   };
 
@@ -116,7 +136,9 @@ function App() {
     if (currentPage < totalPages) {
       const nextPage = currentPage + 1;
       if (currentView === 'latest') {
-        fetchLatestRouteData(nextPage);
+        fetchLatestData(nextPage);
+      } else if (currentView === 'featured') {
+        fetchFeaturedData(nextPage);
       } else if (currentView === 'search' && currentQuery) {
         performSearch(currentQuery, nextPage, false);
       } else if (currentView === 'category' && selectedCategory) {
@@ -129,7 +151,9 @@ function App() {
     if (currentPage > 1) {
       const prevPage = currentPage - 1;
       if (currentView === 'latest') {
-        fetchLatestRouteData(prevPage);
+        fetchLatestData(prevPage);
+      } else if (currentView === 'featured') {
+        fetchFeaturedData(prevPage);
       } else if (currentView === 'search' && currentQuery) {
         performSearch(currentQuery, prevPage, false);
       } else if (currentView === 'category' && selectedCategory) {
@@ -148,43 +172,140 @@ function App() {
     setSelectedModalImage(null);
   };
 
-  const MainContent = ({ currentView }) => (
-    <>
-      {currentView !== 'latest' && <SearchBar onSubmit={handleSubmit} />}
-      {isLoading ? <p>Loading images...</p> : <ImageList images={images} onImageClick={handleImageClick} />}
-      {images.length > 0 && !isLoading && (
-        <div className="pagination-controls">
-          <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
-          {totalPages > 0 && (<span>Page {currentPage} of {totalPages}</span>)}
-          <button onClick={handleNextPage} disabled={currentPage === totalPages || totalPages === 0}>Next</button>
-        </div>
+  const HomePage = () => (
+    <div className="home-page">
+      <HeroCarousel onImageClick={handleImageClick} />
+      
+      <div className="home-content">
+        <motion.section 
+          className="search-section"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="search-header">
+            <h2>Find Your Perfect Wallpaper</h2>
+            <p>Search through millions of high-quality wallpapers</p>
+          </div>
+          <SearchBar onSubmit={handleSearchSubmit} />
+        </motion.section>
+
+        {images.length > 0 && (
+          <motion.section 
+            className="results-section"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="section-header">
+              <h3>
+                {currentView === 'search' && `Search Results for "${currentQuery}"`}
+                {currentView === 'category' && `${selectedCategory} Wallpapers`}
+              </h3>
+            </div>
+            <ImageList 
+              images={images} 
+              onImageClick={handleImageClick} 
+              loading={isLoading} 
+            />
+          </motion.section>
+        )}
+      </div>
+    </div>
+  );
+
+  const MainContent = () => (
+    <div className="main-content-wrapper">
+      {currentView !== 'home' && (
+        <motion.div 
+          className="page-header"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="page-header-content">
+            <h1 className="page-title">
+              {currentView === 'latest' && 'Latest Wallpapers'}
+              {currentView === 'featured' && 'Featured Wallpapers'}
+              {currentView === 'search' && `Search Results for "${currentQuery}"`}
+              {currentView === 'category' && `${selectedCategory} Wallpapers`}
+            </h1>
+            <SearchBar onSubmit={handleSearchSubmit} />
+          </div>
+        </motion.div>
       )}
-    </>
+      
+      <ImageList 
+        images={images} 
+        onImageClick={handleImageClick} 
+        loading={isLoading} 
+      />
+      
+      {images.length > 0 && !isLoading && totalPages > 1 && (
+        <motion.div 
+          className="pagination-controls"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <button 
+            className="pagination-btn prev"
+            onClick={handlePrevPage} 
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          
+          <div className="pagination-info">
+            <span>Page {currentPage} of {totalPages}</span>
+          </div>
+          
+          <button 
+            className="pagination-btn next"
+            onClick={handleNextPage} 
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </motion.div>
+      )}
+    </div>
   );
 
   return (
-    <div className="app-layout">
+    <div className="app">
+      <Toaster position="bottom-right" />
       <Navbar />
-      <div className="app-container">
-        <CategorySidebar onSelectCategory={handleCategorySelect} />
+      
+      <div className="app-layout">
+        <CategorySidebar 
+          onSelectCategory={handleCategorySelect}
+          selectedCategory={selectedCategory}
+        />
+        
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<MainContent currentView={currentView} />} />
-            <Route path="/latest" element={<MainContent currentView={currentView} />} />
-            <Route path="/top" element={<MainContent currentView={currentView} />} />
-            <Route path="/upload" element={<UploadPage />} />
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/privacy" element={<PrivacyPolicyPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/latest" element={<MainContent />} />
+            <Route path="/featured" element={<MainContent />} />
             <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy" element={<PrivacyPolicyPage />} />
           </Routes>
         </main>
       </div>
-      <NewFooter />
-      {isModalOpen && selectedModalImage && (
-        <ImageModal image={selectedModalImage} onClose={handleCloseModal} />
-      )}
+      
+      <Footer />
+      
+      <AnimatePresence>
+        {isModalOpen && selectedModalImage && (
+          <ImageModal 
+            image={selectedModalImage} 
+            onClose={handleCloseModal} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

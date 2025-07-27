@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const ACCESS_KEY = '8O50V7bNzfKdVixwS9W9nZVdr0VnrCv9gmeimfdvp6Y'; // Centralize key
+const ACCESS_KEY = '8O50V7bNzfKdVixwS9W9nZVdr0VnrCv9gmeimfdvp6Y';
 
-// Existing searchImages function (ensure it also uses the centralized ACCESS_KEY)
-export const searchImages = async (term, page) => {
+// Existing searchImages function
+export const searchImages = async (term, page = 1, perPage = 30) => {
   const response = await axios.get('https://api.unsplash.com/search/photos', {
     headers: {
       Authorization: `Client-ID ${ACCESS_KEY}`,
@@ -11,41 +11,145 @@ export const searchImages = async (term, page) => {
     params: {
       query: term,
       page: page,
-      per_page: 30,
+      per_page: perPage,
     },
   });
   return response.data;
 };
 
-// New function for latest images
-export const getLatestImages = async (page) => {
+// Get latest images
+export const getLatestImages = async (page = 1, perPage = 30) => {
   const response = await axios.get('https://api.unsplash.com/photos', {
     headers: {
       Authorization: `Client-ID ${ACCESS_KEY}`,
     },
     params: {
       page: page,
-      per_page: 30,
-      order_by: 'latest', // Explicitly order by latest, though it's default for /photos
+      per_page: perPage,
+      order_by: 'latest',
     },
   });
-  // The /photos endpoint returns an array directly, not an object with a 'results' property.
-  // It also provides total count in X-Total header and links for pagination.
-  // For consistency with searchImages, we might need to shape the response or handle it differently in App.js
-  // For now, let's return what App.js's performSearch expects: an object with 'results' and 'total_pages'.
-  // We'll need to get total_pages from headers if possible or make an assumption.
-  // Unsplash API returns total items in 'X-Total' header for /photos.
-  const totalItems = parseInt(response.headers['x-total'], 10);
-  const totalPages = Math.ceil(totalItems / 30);
+  
+  const totalItems = parseInt(response.headers['x-total'], 10) || 1000;
+  const totalPages = Math.ceil(totalItems / perPage);
 
   return {
-    results: response.data, // response.data is the array of photos
+    results: response.data,
     total_pages: totalPages,
-    total: totalItems // good to have total items as well
+    total: totalItems
   };
 };
 
-// Default export might need to be removed or changed if using named exports primarily
-// For now, keeping a default export might be fine if old imports expect it,
-// but it's better to be consistent. Let's assume we'll switch to named imports for searchImages.
-// export default searchImages; // Remove if all imports become named
+// Get popular/featured images
+export const getFeaturedImages = async (page = 1, perPage = 30) => {
+  const response = await axios.get('https://api.unsplash.com/photos', {
+    headers: {
+      Authorization: `Client-ID ${ACCESS_KEY}`,
+    },
+    params: {
+      page: page,
+      per_page: perPage,
+      order_by: 'popular',
+    },
+  });
+  
+  const totalItems = parseInt(response.headers['x-total'], 10) || 1000;
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  return {
+    results: response.data,
+    total_pages: totalPages,
+    total: totalItems
+  };
+};
+
+// Get random images for carousel
+export const getRandomImages = async (count = 10, featured = true) => {
+  const response = await axios.get('https://api.unsplash.com/photos/random', {
+    headers: {
+      Authorization: `Client-ID ${ACCESS_KEY}`,
+    },
+    params: {
+      count: count,
+      featured: featured,
+      orientation: 'landscape'
+    },
+  });
+  return response.data;
+};
+
+// Get images by category with high quality
+export const getCategoryImages = async (category, page = 1, perPage = 30) => {
+  const response = await axios.get('https://api.unsplash.com/search/photos', {
+    headers: {
+      Authorization: `Client-ID ${ACCESS_KEY}`,
+    },
+    params: {
+      query: `${category} wallpaper`,
+      page: page,
+      per_page: perPage,
+      orientation: 'landscape',
+      order_by: 'relevant'
+    },
+  });
+  return response.data;
+};
+
+// Get collections
+export const getCollections = async (page = 1) => {
+  const response = await axios.get('https://api.unsplash.com/collections', {
+    headers: {
+      Authorization: `Client-ID ${ACCESS_KEY}`,
+    },
+    params: {
+      page: page,
+      per_page: 10,
+    },
+  });
+  return response.data;
+};
+
+// Download image (trigger download)
+export const downloadImage = async (imageUrl, filename) => {
+  try {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Download failed:', error);
+    throw error;
+  }
+};
+
+// Wallpaper categories list
+export const wallpaperCategories = [
+  'Nature',
+  'Abstract',
+  'Animals',
+  'Architecture',
+  'Art',
+  'Cars',
+  'City',
+  'Dark',
+  'Fantasy',
+  'Flowers',
+  'Food',
+  'Landscape',
+  'Minimalist',
+  'Mountains',
+  'Ocean',
+  'People',
+  'Space',
+  'Sports',
+  'Technology',
+  'Travel',
+  'Vintage',
+  'Wildlife'
+];
