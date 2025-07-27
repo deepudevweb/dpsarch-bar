@@ -1,4 +1,4 @@
-import React, a
+import React, { useState, useEffect } from 'react';
 import './WallpaperCarousel.css';
 
 const WallpaperCarousel = ({ images }) => {

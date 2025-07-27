@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './ModernNavbar.css';
-import SearchBar from './SearchBar';
+// import SearchBar from './SearchBar';
 
-function ModernNavbar({ onSearchSubmit }) {
+function ModernNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -56,9 +56,9 @@ function ModernNavbar({ onSearchSubmit }) {
           <Link to="/account" className="nav-link">Account</Link>
         </li>
       </ul>
-      <div className="modern-search-bar">
+      {/* <div className="modern-search-bar">
         <SearchBar onSubmit={onSearchSubmit} />
-      </div>
+      </div> */}
     </nav>
   );
 }
