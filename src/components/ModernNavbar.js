@@ -22,7 +22,7 @@ function ModernNavbar() {
       <div className="modern-navbar-logo">
         <Link to="/">DP Wallpapers</Link>
       </div>
-      <div className="hamburger-menu" onClick={toggleMenu}>
+      <div className={`hamburger-menu ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
         <span></span>
         <span></span>
         <span></span>
