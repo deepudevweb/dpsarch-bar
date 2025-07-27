@@ -16,59 +16,124 @@ function ImageModal({ image, onClose }) {
     { label: `Original (${image.width}x${image.height})`, url: image.urls.full, original: true }
   ];
 
-  const handleDownload = async (resolution) => {
-    try {
-      // Always ping the official download location for tracking
-      await axios.get(image.links.download_location, {
-        headers: {
-          Authorization: `Client-ID 8O50V7bNzfKdVixwS9W9nZVdr0VnrCv9gmeimfdvp6Y`, // Replace with your Access Key
-        },
-      });
+  // const handleDownload = async (resolution) => {
 
-      let downloadUrl = '';
-      let filename = `${image.alt_description || image.id || 'wallpaper'}`;
-
-      if (resolution.original) {
-        downloadUrl = resolution.url;
-        filename += `_original.jpg`;
-      } else {
-        // Construct URL using image.urls.raw and Imgix params
-        // Example: &w=1920&h=1080&fit=crop&fm=jpg&q=80
-        downloadUrl = `${image.urls.raw}&w=${resolution.width}&h=${resolution.height}&fit=${resolution.type}&fm=jpg&q=80`;
-        filename += `_${resolution.width}x${resolution.height}.jpg`;
+    const handleDownload = async (resolution) => {
+      try {
+        // Always ping the official download location for tracking
+        await axios.get(image.links.download_location, {
+          headers: {
+            Authorization: `Client-ID 8O50V7bNzfKdVixwS9W9nZVdr0VnrCv9gmeimfdvp6Y`, // Replace with your Access Key
+          },
+        });
+    
+        let downloadUrl = '';
+        let filename = `${image.alt_description || image.id || 'wallpaper'}`;
+    
+        if (resolution.original) {
+          downloadUrl = resolution.url;
+          filename += `_original.jpg`;
+        } else {
+          downloadUrl = `${image.urls.raw}&w=${resolution.width}&h=${resolution.height}&fit=${resolution.type}&fm=jpg&q=80`;
+          filename += `_${resolution.width}x${resolution.height}.jpg`;
+        }
+    
+        // Fetch the image as a Blob
+        const response = await fetch(downloadUrl);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const blob = await response.blob();
+    
+        // Create a temporary URL for the blob
+        const blobUrl = window.URL.createObjectURL(blob);
+    
+        // Create a temporary <a> to trigger download
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    
+        // Clean up the blob URL
+        window.URL.revokeObjectURL(blobUrl);
+    
+      } catch (error) {
+        console.error('Error processing download:', error);
+        // Fallback: try to download the 'full' version directly if something went wrong
+        const fallbackUrl = resolution.original ? resolution.url : image.urls.full;
+        const fallbackFilename = `${image.alt_description || image.id || 'wallpaper'}_fallback.jpg`;
+    
+        try {
+          const response = await fetch(fallbackUrl);
+          if (!response.ok) throw new Error('Fallback network response was not ok');
+          const blob = await response.blob();
+          const blobUrl = window.URL.createObjectURL(blob);
+    
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.setAttribute('download', fallbackFilename);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+    
+          window.URL.revokeObjectURL(blobUrl);
+        } catch (fallbackError) {
+          alert('Failed to download image. Please try again later.');
+        }
       }
+    };
+  //   try {
+  //     // Always ping the official download location for tracking
+  //     await axios.get(image.links.download_location, {
+  //       headers: {
+  //         Authorization: `Client-ID 8O50V7bNzfKdVixwS9W9nZVdr0VnrCv9gmeimfdvp6Y`, // Replace with your Access Key
+  //       },
+  //     });
 
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.setAttribute('download', filename);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  //     let downloadUrl = '';
+  //     let filename = `${image.alt_description || image.id || 'wallpaper'}`;
 
-    } catch (error) {
-      console.error('Error processing download:', error);
-      // Fallback: try to download the 'full' version directly if something went wrong
-      // or if it's an original download that failed for other reasons.
-      const fallbackUrl = resolution.original ? resolution.url : image.urls.full;
-      const fallbackFilename = `${image.alt_description || image.id || 'wallpaper'}_fallback.jpg`;
+  //     if (resolution.original) {
+  //       downloadUrl = resolution.url;
+  //       filename += `_original.jpg`;
+  //     } else {
+  //       // Construct URL using image.urls.raw and Imgix params
+  //       // Example: &w=1920&h=1080&fit=crop&fm=jpg&q=80
+  //       downloadUrl = `${image.urls.raw}&w=${resolution.width}&h=${resolution.height}&fit=${resolution.type}&fm=jpg&q=80`;
+  //       filename += `_${resolution.width}x${resolution.height}.jpg`;
+  //     }
 
-      if (error.response && error.response.status !== 403) { // Avoid fallback if it's an auth issue for ping
-         const link = document.createElement('a');
-         link.href = fallbackUrl;
-         link.setAttribute('download', fallbackFilename);
-         document.body.appendChild(link);
-         link.click();
-         document.body.removeChild(link);
-      } else if (!error.response) { // Network error or other issue
-         const link = document.createElement('a');
-         link.href = fallbackUrl;
-         link.setAttribute('download', fallbackFilename);
-         document.body.appendChild(link);
-         link.click();
-         document.body.removeChild(link);
-      }
-    }
-  };
+  //     const link = document.createElement('a');
+  //     link.href = downloadUrl;
+  //     link.setAttribute('download', filename);
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+
+  //   } catch (error) {
+  //     console.error('Error processing download:', error);
+  //     // Fallback: try to download the 'full' version directly if something went wrong
+  //     // or if it's an original download that failed for other reasons.
+  //     const fallbackUrl = resolution.original ? resolution.url : image.urls.full;
+  //     const fallbackFilename = `${image.alt_description || image.id || 'wallpaper'}_fallback.jpg`;
+
+  //     if (error.response && error.response.status !== 403) { // Avoid fallback if it's an auth issue for ping
+  //        const link = document.createElement('a');
+  //        link.href = fallbackUrl;
+  //        link.setAttribute('download', fallbackFilename);
+  //        document.body.appendChild(link);
+  //        link.click();
+  //        document.body.removeChild(link);
+  //     } else if (!error.response) { // Network error or other issue
+  //        const link = document.createElement('a');
+  //        link.href = fallbackUrl;
+  //        link.setAttribute('download', fallbackFilename);
+  //        document.body.appendChild(link);
+  //        link.click();
+  //        document.body.removeChild(link);
+  //     }
+  //   }
+  // };
 
   const handleModalContentClick = (e) => {
     e.stopPropagation();
@@ -109,4 +174,4 @@ function ImageModal({ image, onClose }) {
   );
 }
 
-export default ImageModal;
+export default ImageModal; 

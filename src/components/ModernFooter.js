@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaFacebookF, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 import './ModernFooter.css';
 
 function ModernFooter() {
@@ -22,18 +23,30 @@ function ModernFooter() {
           </ul>
         </div>
         <div className="footer-section social">
-          <h4>Follow Us</h4>
-          <div className="social-links">
-            <a href="#"><i className="fab fa-facebook-f"></i></a>
-            <a href="#"><i className="fab fa-twitter"></i></a>
-            <a href="#"><i className="fab fa-instagram"></i></a>
-            <a href="#"><i className="fab fa-pinterest"></i></a>
-          </div>
-        </div>
+  <h4>Follow Us</h4>
+  <div className="social-links">
+    <a href="https://www.facebook.com/share/171xjbmQqv/" target="_blank" rel="noreferrer">
+      <FaFacebookF />
+    </a>
+    <a href="https://www.instagram.com/prajapati0841?igsh=Y2pqeTRubTl6bWgw" target="_blank" rel="noreferrer">
+      <FaInstagram />
+    </a>
+    <a href="https://www.linkedin.com/in/deepu-prajapati-49683a23b/" target="_blank" rel="noreferrer">
+      <FaLinkedin />
+    </a>
+  </div>
+      </div>
       </div>
       <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} DP Wallpapers | All Rights Reserved
-      </div>
+  &copy; {new Date().getFullYear()} DP Wallpapers | All Rights Reserved
+  <p>
+    Developed by Deepu Prajapati{' '}
+    <a href="https://github.com/deepudevweb" target="_blank" rel="noreferrer">
+      <FaGithub />
+    </a>
+  </p>
+</div>
+
     </footer>
   );
 }

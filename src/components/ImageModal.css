@@ -26,11 +26,14 @@
 }
 
 .modal-image-preview {
-  max-width: 100%; /* Ensure image is responsive within modal content */
-  max-height: 70vh; /* Limit image height to leave space for actions */
+  max-width: 90%; /* Ensure image is responsive within modal content */
+  max-height: 40vh; /* Limit image height to leave space for actions */
   object-fit: contain; /* Show whole image, maintain aspect ratio */
-  border-radius: 4px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  border-radius: 14px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer; /* Indicate image is clickable */
 }
 
 .modal-close-button {

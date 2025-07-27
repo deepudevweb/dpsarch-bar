@@ -1,4 +1,5 @@
-/* src/components/ModernNavbar.css */
+/* ...your existing styles... */
+
 .modern-navbar {
   display: flex;
   justify-content: space-between;
@@ -23,6 +24,7 @@
   display: flex;
   margin: 0;
   padding: 0;
+  transition: none;
 }
 
 .modern-navbar-links .nav-item {
@@ -53,6 +55,7 @@
   list-style: none;
   min-width: 180px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 10;
 }
 
 .nav-item:hover .dropdown-menu {
@@ -72,41 +75,15 @@
   background-color: #00bcd4;
 }
 
-.modern-search-bar {
-  display: flex;
-  align-items: center;
-}
-
-.modern-search-bar input {
-  padding: 8px 12px;
-  font-size: 1em;
-  border: 1px solid #555;
-  border-radius: 20px 0 0 20px;
-  background-color: #444;
-  color: white;
-  outline: none;
-}
-
-.modern-search-bar button {
-  padding: 8px 12px;
-  font-size: 1em;
-  border: 1px solid #555;
-  border-left: none;
-  border-radius: 0 20px 20px 0;
-  background-color: #00bcd4;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.modern-search-bar button:hover {
-  background-color: #0097a7;
-}
-
 .hamburger-menu {
   display: none;
   flex-direction: column;
   cursor: pointer;
+  z-index: 1101;
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
 }
 
 .hamburger-menu span {
@@ -114,11 +91,13 @@
   width: 25px;
   background: white;
   margin: 4px 0;
+  border-radius: 2px;
   transition: 0.4s;
+  display: block;
 }
 
 .hamburger-menu.open span:nth-child(1) {
-  transform: rotate(-45deg) translate(-5px, 6px);
+  transform: rotate(-45deg) translate(-6px, 6px);
 }
 
 .hamburger-menu.open span:nth-child(2) {
@@ -126,65 +105,89 @@
 }
 
 .hamburger-menu.open span:nth-child(3) {
-  transform: rotate(45deg) translate(-5px, -6px);
+  transform: rotate(45deg) translate(-6px, -6px);
+}
+
+/* Overlay for mobile menu */
+.mobile-overlay {
+  display: none;
 }
 
 @media (max-width: 768px) {
   .modern-navbar-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    background-color: #222;
-    padding: 0;
-    margin: 0;
-  }
-
-  .modern-navbar.responsive .modern-navbar-links {
     display: flex;
+    flex-direction: column;
+    width: 75vw;
+    max-width: 320px;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    background-color: #222;
+    padding-top: 80px;
+    padding-left: 0;
+    margin: 0;
+    box-shadow: -2px 0 16px rgba(0,0,0,0.2);
+    transition: right 0.4s cubic-bezier(0.77,0.2,0.05,1.0);
+    z-index: 1100;
   }
 
-  .modern-search-bar {
+  .modern-navbar-links.open {
+    right: 0;
+    transition: right 0.4s cubic-bezier(0.77,0.2,0.05,1.0);
+  }
+
+  .modern-navbar-links .nav-item {
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    border-bottom: 1px solid #333;
+  }
+
+  .modern-navbar-links .nav-link {
+    display: block;
+    width: 100%;
+    padding: 18px 30px;
+    font-size: 1.2em;
+  }
+
+  .dropdown-menu {
+    position: static;
     display: none;
+    background: #292929;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    min-width: 100%;
+  }
+
+  .nav-item.open .dropdown-menu {
+    display: block;
+  }
+
+  .dropdown-menu .dropdown-item a {
+    padding: 14px 40px;
+    font-size: 1em;
+    background: none;
   }
 
   .hamburger-menu {
     display: flex;
   }
 
-  .modern-navbar.responsive .modern-navbar-links .nav-item {
-    margin: 0;
-    text-align: center;
-    width: 100%;
-  }
-
-  .modern-navbar.responsive .modern-navbar-links .nav-item {
-    margin: 0;
-    text-align: center;
-  }
-
-  .modern-navbar.responsive .dropdown-menu {
-    position: static;
-    display: none;
-  }
-
-  .modern-navbar.responsive .nav-item:hover .dropdown-menu {
-    display: none;
-  }
-
-  .modern-navbar.responsive .nav-item.open .dropdown-menu {
+  /* Overlay for mobile menu */
+  .mobile-overlay {
     display: block;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1099;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
   }
-
-  .modern-navbar.responsive .modern-search-bar {
-    display: flex;
-    position: absolute;
-    top: 120px;
-    left: 0;
-    width: 100%;
-    padding: 10px 30px;
-    background-color: #222;
+  .mobile-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
