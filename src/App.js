@@ -180,8 +180,10 @@ function App() {
     <div className="app-layout">
       <ModernNavbar onSearchSubmit={handleSubmit} />
       <WallpaperCarousel images={carouselImages} />
+      <SearchBar onSubmit={handleSubmit} />
       <div className="app-container">
         <ModernSidebar onSelectCategory={handleCategorySelect} />
+      
         <main className="main-content">
           <Routes>
             <Route path="/" element={<MainContent currentView={currentView} />} />
