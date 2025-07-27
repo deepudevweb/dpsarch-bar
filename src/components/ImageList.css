@@ -1,86 +1,580 @@
-/* src/components/ImageList.css - Append or replace if only card styles are needed */
-
-/* Existing .image-list styles - ensure it's a grid container */
-.image-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Example responsive grid */
-  grid-gap: 20px; /* Spacing between cards */
-  padding: 20px;
+/* Image List Styles */
+.image-list-container {
+  width: 100%;
+  padding: 0 1rem;
 }
 
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+/* Image Cards */
 .image-card {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
-  overflow: hidden; /* Ensures content like image doesn't break rounded corners */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  display: flex;
-  flex-direction: column; /* Stack image, info, button vertically */
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .image-card:hover {
-  transform: translateY(-5px); /* Hover effect */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
 }
 
-.image-thumbnail {
+/* Image Wrapper */
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px 20px 0 0;
+}
+
+.wallpaper-image {
   width: 100%;
-  height: 200px; /* Fixed height for thumbnails, or use aspect-ratio */
-  object-fit: cover; /* Cover ensures image fills space without distortion */
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.image-card:hover .wallpaper-image {
+  transform: scale(1.05);
+}
+
+/* Quality Badge */
+.quality-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quality-badge.ultra {
+  background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.quality-badge.high {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.quality-badge.medium {
+  background: linear-gradient(45deg, #4ecdc4, #44a08d);
+  color: white;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.quality-badge.low {
+  background: rgba(255, 255, 255, 0.8);
+  color: #666;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Overlay */
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-card:hover .image-overlay {
+  opacity: 1;
+}
+
+/* Overlay Top */
+.overlay-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.image-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 0.75rem;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.stat svg {
+  font-size: 0.75rem;
+}
+
+.stat svg.liked {
+  color: #ff6b6b;
+}
+
+.like-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.like-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.like-btn.liked {
+  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* Overlay Bottom */
+.overlay-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .image-info {
-  padding: 10px 15px;
-  flex-grow: 1; /* Allows info to take available space if card height is fixed/flexed */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.image-title {
-  font-size: 0.9em;
-  font-weight: bold;
-  color: #333;
-  margin: 0 0 5px 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Prevent long titles from breaking layout */
-}
-
-.image-resolution {
-  font-size: 0.8em;
-  color: #777;
-  margin: 0;
-}
-
-.download-button-card { /* Style for download button on card */
-  background-color: #007bff; /* Or your accent color */
+.resolution {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
   color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.photographer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.photographer svg {
+  font-size: 0.75rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: none;
-  padding: 8px 15px;
-  margin: 10px 15px; /* Margin to push it from edges of info */
-  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  font-size: 0.9em;
-  align-self: flex-start; /* Align button to the left within the card */
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
-.download-button-card:hover {
-  background-color: #0056b3;
+.view-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
 }
 
-@media (max-width: 480px) { /* For very small screens */
-  .image-list {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Smaller min size for items */
-    /* Or, for a single column layout: */
-    /* grid-template-columns: 1fr; */
-    grid-gap: 10px; /* Reduce gap */
-    padding: 10px; /* Reduce padding */
+.view-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.download-btn {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.download-btn:hover:not(.downloading) {
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  transform: scale(1.05);
+}
+
+.download-btn.downloading {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.download-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background: #f8f9fa;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.user-username {
+  color: #a0aec0;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.download-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #667eea;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.download-count svg {
+  font-size: 0.75rem;
+}
+
+/* Loading States */
+.image-list-loading {
+  padding: 2rem 0;
+}
+
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.loading-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.loading-image {
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+.loading-content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.loading-line {
+  height: 12px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 6px;
+}
+
+.loading-line.long {
+  width: 80%;
+}
+
+.loading-line.short {
+  width: 60%;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #a0aec0;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: #4a5568;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 1rem;
+  max-width: 400px;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes loading {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
-
+  
   .image-card {
-    /* Potentially adjust card styling for very small screens if needed */
+    border-radius: 16px;
   }
-  .image-thumbnail {
-    height: 120px; /* Adjust thumbnail height for smaller cards */
+  
+  .image-wrapper {
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .wallpaper-image {
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .image-list-container {
+    padding: 0 0.5rem;
+  }
+  
+  .image-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+  
+  .wallpaper-image {
+    height: 200px;
+  }
+  
+  .image-overlay {
+    padding: 1rem;
+  }
+  
+  .image-stats {
+    gap: 0.75rem;
+  }
+  
+  .stat {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .action-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+  
+  .like-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .card-footer {
+    padding: 1rem;
+  }
+  
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .user-name {
+    font-size: 0.85rem;
+  }
+  
+  .user-username {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .image-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .wallpaper-image {
+    height: 180px;
+  }
+  
+  .quality-badge {
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+  
+  .image-overlay {
+    padding: 0.75rem;
+  }
+  
+  .image-stats {
+    gap: 0.5rem;
+  }
+  
+  .stat {
+    padding: 0.35rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .action-buttons {
+    gap: 0.5rem;
+  }
+  
+  .action-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+  
+  .like-btn {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .card-footer {
+    padding: 0.75rem;
+  }
+  
+  .resolution {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  
+  .photographer {
+    font-size: 0.8rem;
+  }
+  
+  .download-count {
+    font-size: 0.8rem;
+  }
+}
+
+/* Hover effects for touch devices */
+@media (hover: none) {
+  .image-overlay {
+    opacity: 1;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+  }
+  
+  .overlay-top {
+    opacity: 0;
+  }
+  
+  .image-card:hover {
+    transform: none;
+  }
+  
+  .image-card:hover .wallpaper-image {
+    transform: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .image-card {
+    border: 2px solid #000;
+  }
+  
+  .action-btn,
+  .like-btn {
+    border: 1px solid #000;
   }
 }
